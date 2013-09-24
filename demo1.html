@@ -3,9 +3,12 @@
 		<style media="screen" type="text/css">
 			img { display: none; }
 			body { overflow: hidden; }
-			#canvas { position: absolute; top: 0px; left: 0px; }
+			#canvas { position: absolute; top: 0px; left: -100px; zoom:1.2}
+      #hidden { position: absolute; top: -9999px; left: -9999px;}
 		</style>
 		<script src="rainyday.js" type="text/javascript"></script>
+		<script src="ccv.js" type="text/javascript"></script>
+		<script src="face.js" type="text/javascript"></script>
 		<script type="text/javascript">
  			function demo() {
 				var engine = new RainyDay('canvas','demo1', window.innerWidth, window.innerHeight);
@@ -21,10 +24,36 @@
 					engine.preset(5, 5, 0.9),
 					engine.preset(6, 2, 1),
 				], 100);
+
+
+        navigator.getUserMedia || (navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+
+        if (typeof navigator.getUserMedia === "function") {
+          var gUMOptions = {video: true, toString: function(){ return "video"; }};
+
+          var video = document.createElement('video'),
+                     canvas = document.querySelector('#hidden'),
+                     context = canvas.getContext('2d');
+
+          navigator.getUserMedia(gUMOptions, handleWebcamStream, function(e){console.log(e)});
+          function handleWebcamStream(stream) {
+            video.src = (window.URL && window.URL.createObjectURL) ? window.URL.createObjectURL(stream) : stream;
+
+            process();
+          }
+
+          function process() {
+            faces = ccv.detect_objects({canvas : (ccv.pre(canvas)), cascade: cascade, interval: 2, min_neighbors: 1});
+            console.log(faces);
+
+            setTimeout(process, 50); 
+          }
+        }
  			}
 		</script>
 	</head>
 	<body onload="demo();">
+    <canvas id="hidden"></canvas>
 		<img id="demo1" src="data:image/jpeg;base64, /9j/4AAQSkZJRgABAQEBLAEsAAD/4Rx/RXhpZgAASUkqAAgAAAAIABABAgAKAAAAbgAAABIBAwAB
 AAAAAQAAABoBBQABAAAAeAAAABsBBQABAAAAgAAAACgBAwABAAAAAgAAADEBAgALAAAAiAAAADIB
 AgAUAAAAlAAAAGmHBAABAAAAqAAAAFIBAABEU0xSLUEzNTAALAEAAAEAAAAsAQAAAQAAAEdJTVAg
