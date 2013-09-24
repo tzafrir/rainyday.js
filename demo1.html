@@ -35,6 +35,7 @@
                      canvas = document.querySelector('#hidden'),
                      context = canvas.getContext('2d');
 
+
           navigator.getUserMedia(gUMOptions, handleWebcamStream, function(e){console.log(e)});
           function handleWebcamStream(stream) {
             video.src = (window.URL && window.URL.createObjectURL) ? window.URL.createObjectURL(stream) : stream;
