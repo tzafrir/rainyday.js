@@ -35,6 +35,7 @@
                      canvas = document.querySelector('#hidden'),
                      context = canvas.getContext('2d');
 
+          video.setAttribute('autoplay', true);
 
           navigator.getUserMedia(gUMOptions, handleWebcamStream, function(e){console.log(e)});
           function handleWebcamStream(stream) {
@@ -8448,7 +8449,7 @@ BK9sEFgKffQ+8yXaUIVFaZ+WEy6a23BDDDEOvTdOpuLIwIoHGpj70CINcRpGjX0KCqCgS4hQIcwH
 GKRFWPLZ1a4lQKgJCPOT9VrDsqTdFDi7RGM7r1QWtHTKYsZPWKqfnmAhgAvQOYkiF1JDpROfCZwG
 oh+f/9k=" />
 		<div id="cholder">
-			<canvas id="canvas"></canvas>
+      <canvas id="canvas"></canvas>
 		</div>
 	</body>
 </html>
